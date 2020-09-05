@@ -1,0 +1,12 @@
+#! /bin/sh
+# Based on https://github.com/MartinSeeler/auto-changelog-hook
+set -eu
+
+OUTPUT=README.md
+
+make "$OUTPUT"
+if [ "$(git status --porcelain | grep -c "$OUTPUT")" -gt 0 ]; then
+  git add "$OUTPUT"
+  git commit --amend
+  echo "Auto-generated README"
+fi
