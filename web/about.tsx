@@ -35,7 +35,7 @@ function timelineLink(contents: string, obj: any): string {
   return (
     <a
       class="p-1 bg-green-400 rounded shadow hover:bg-green-300 active:bg-green-500 button"
-      title="This link doesn't do anything (yet)"
+      title="Go to entry in timeline"
     >
       {contents}
     </a>
@@ -208,7 +208,7 @@ function makeLinks(): string {
 const about = {
   id: "about",
   content: (
-    <section class="flex items-center justify-center h-screen">
+    <section class="flex items-center justify-center py-16 xl:h-screen sm:py-24 md:py-32 lg:py-48">
       <a id="about" class="navbar-anchor xl:no-navbar-anchor"></a>
       <div class="flex flex-col items-center justify-center space-y-6 sm:space-y-8 md:space-y-12">
         <h1
