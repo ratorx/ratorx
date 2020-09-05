@@ -5,7 +5,11 @@ function git(...args: string[]): string {
 }
 
 export function originURL(): string {
-  let url = git("config", "--get", "remote.origin.url");
+  let url = process.env.REPOSITORY_URL;
+  if (url === undefined) {
+    url = git("config", "--get", "remote.origin.url");
+  }
+
   if (url.startsWith("git@")) {
     url = url.replace(/git@(.+):(.+)/, "https://$1/$2");
   }
