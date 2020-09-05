@@ -1,5 +1,9 @@
-function sitename(url?: string) {
-  return url?.replace(/^https?:\/\//, "");
+function sitename(url?: string): string {
+  if (url === undefined) {
+    return "";
+  }
+
+  return url.replace(/^https?:\/\//, "");
 }
 
 export const config = {
