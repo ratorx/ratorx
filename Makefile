@@ -1,7 +1,12 @@
 WORKSPACES := content web utils
 
-include .env
-export $(shell sed 's/=.*//' .env)
+# Optional ENV file
+ENV :=
+ifeq (.env,$(wildcard .env))
+	ENV := .env
+	include .env
+	export $(shell sed 's/=.*//' .env)
+endif
 
 # Typescript -> Javascript variables
 TS_OUT_DIR := build/gen
@@ -28,12 +33,6 @@ NPM_MARKER := node_modules/.marker
 
 # Find all source files
 ALL_SRC_CMD := find . -type f ! -wholename './node_modules/*' ! -wholename './.git/*' ! -wholename './build/*'
-
-# Optional ENV file
-ENV := .env
-ifeq (,$(wildcard ./.env))
-	ENV :=
-endif
 
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch
