@@ -1,9 +1,6 @@
 import { config } from "content";
 import * as elements from "typed-html";
 import about from "./about";
-import { makeNav } from "./navigation";
-import progress from "./progress";
-import { render as renderSection } from "./section";
 import { writeFileSync } from "fs";
 
 function makeMeta(kvs: { name: string; content: string }[]): string {
@@ -17,8 +14,6 @@ const kvs = [
   { name: "description", content: config.description },
   { name: "author", content: [config.first, config.last].join(" ") },
 ];
-
-const sections = [progress];
 
 const liveReload = (
   <script type="text/javascript" src="http://livejs.com/live.js"></script>
@@ -40,13 +35,7 @@ const document =
       </head>
       <body class="flex flex-col bg-gray-100 xl:flex-row">
         <div id="page-top"></div>
-        {makeNav([about, ...sections])}
-        <main class="flex-grow navbar-margin-top xl:navbar-margin-left">
-          {about.content}
-          <div class="space-y-20 md:space-y-24">
-            {sections.map(renderSection)}
-          </div>
-        </main>
+        <main class="flex-grow">{about.content}</main>
       </body>
     </html>
   );
