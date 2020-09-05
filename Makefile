@@ -29,6 +29,12 @@ NPM_MARKER := node_modules/.marker
 # Find all source files
 ALL_SRC_CMD := find . -type f ! -wholename './node_modules/*' ! -wholename './.git/*' ! -wholename './build/*'
 
+# Optional ENV file
+ENV := .env
+ifeq (,$(wildcard ./.env))
+	ENV :=
+endif
+
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch
 all: web;
@@ -55,11 +61,11 @@ CSS_EXTRA_DEPS :=
 ifeq ($(NODE_ENV),production)
 	CSS_EXTRA_DEPS := $(HTML) $(JS)
 endif
-$(CSS) : $(UTILS_JS) $(wildcard static/web/css/*) $(CSS_EXTRA_DEPS) .env | $(TS_MARKER) $(WEB_COMMON)
+$(CSS) : $(UTILS_JS) $(wildcard static/web/css/*) $(CSS_EXTRA_DEPS) $(ENV) | $(TS_MARKER) $(WEB_COMMON)
 	node $(TS_OUT_DIR)/utils/cmd/css.js static/web/css/main.css $@
 
 ## HTML
-$(HTML) : $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) .env | $(TS_MARKER) $(WEB_COMMON) build/cache
+$(HTML) : $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) $(ENV) | $(TS_MARKER) $(WEB_COMMON) build/cache
 	node $(TS_OUT_DIR)/web/index.js $@
 
 ## JS
