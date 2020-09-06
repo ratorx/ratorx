@@ -1,6 +1,9 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
-import { faBriefcase, faUserGraduate } from "@fortawesome/free-solid-svg-icons";
-import { assert } from "console";
+import {
+  faBriefcase,
+  faUserGraduate,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import * as education from "content/education";
 import * as work from "content/work";
 import * as elements from "typed-html";
@@ -13,186 +16,149 @@ import {
 } from "utils/event";
 import { config } from "content";
 
-function locationLink(code: OLC, contents?: string): string {
-  if (contents === undefined) {
-    const location = getAddress(code);
-    contents = `${location.city}`;
-  }
-  return (
-    <a
-      class="p-1 bg-yellow-400 border rounded shadow hover:bg-yellow-300 active:bg-yellow-500 button"
-      href={makeURL(code)}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Open location in Google Maps"
-    >
-      {contents}
-    </a>
-  );
+interface PrefixedLink {
+  prefix: string;
+  content: string;
 }
 
-function timelineLink(contents: string, obj: any): string {
-  return (
-    <a
-      class="p-1 bg-green-400 rounded shadow hover:bg-green-300 active:bg-green-500 button"
-      title="Go to entry in timeline"
-    >
-      {contents}
-    </a>
-  );
+interface SwitchButtonDisplay {
+  mobileButton: IconDefinition;
+  mainButton: string;
 }
 
-function switchLink(contents: string, isPrimary: boolean) {
-  const f = (b: boolean) => (b ? "primarytagline" : "secondarytagline");
-  const id = f(isPrimary);
-  const other = f(!isPrimary);
-  return (
-    <button
-      class="p-1 bg-blue-300 rounded shadow hover:bg-blue-200 active:bg-blue-400 button"
-      onclick={`switchElements("${other}", "${id}")`}
-      aria-label={`Switch to the ${
-        isPrimary ? "secondary" : "primary"
-      } tagline`}
-    >
-      {contents}
-    </button>
-  );
-}
-
-function mobileSwitchLink(contents: string, isPrimary: boolean) {
-  const f = (b: boolean) => (b ? "primarytagline" : "secondarytagline");
-  const id = f(isPrimary);
-  const other = f(!isPrimary);
-  return (
-    <button
-      class="w-10 h-10 p-2 bg-blue-300 rounded-full shadow hover:bg-blue-200 active:bg-blue-400 sm:w-12 sm:h-12 sm:p-3"
-      onclick={`switchElements("${other}", "${id}")`}
-      aria-label={`Switch to the ${
-        isPrimary ? "secondary" : "primary"
-      } tagline`}
-    >
-      {contents}
-    </button>
-  );
-}
-
-function mainEducationTagline(
-  e: education.Education,
-  isPrimary: boolean
-): string {
-  const description = timelineLink(e.qualification, e);
-  const location = locationLink(e.location, e.institution);
-  if (isOngoing(e)) {
-    return `${switchLink(
-      "Currently studying",
-      isPrimary
-    )} for my ${description} at the ${location}`;
-  }
-
-  return `${switchLink(
-    "Graduated",
-    isPrimary
-  )} with my ${description} from the ${location}`;
-}
-
-function mobileEducationTagline(
-  e: education.Education,
-  isPrimary: boolean
-): string {
-  return (
-    mobileSwitchLink(icon(faUserGraduate).html.join(""), isPrimary) +
-    (
-      <p>
-        {e.qualification}
-        {isOngoing(e) ? "(current)" : ""}
-      </p>
-    )
-  );
-}
-
-function mainWorkTagline(w: work.Work, isPrimary: boolean): string {
-  const description = timelineLink(`${w.role} at ${w.company}`, w);
-  const location = locationLink(w.location);
-  if (isOngoing(w)) {
-    return `${switchLink(
-      "Currently working",
-      isPrimary
-    )} as a ${description} in ${location}`;
-  }
-  return `${switchLink(
-    "Formerly worked",
-    isPrimary
-  )} as a ${description} in ${location}`;
-}
-
-function mobileWorkTagline(w: work.Work, isPrimary: boolean): string {
-  return (
-    mobileSwitchLink(icon(faBriefcase).html.join(""), isPrimary) +
-    (
-      <p>
-        {`${!isOngoing(w) ? "Former " : ""}${w.role} at ${w.company}`}
-        <span class="select-none">&nbsp;</span>
-      </p>
-    )
-  );
-}
-
-interface Tagline {
-  main: string;
+interface CoreDisplay {
+  main: PrefixedLink;
   mobile: string;
 }
 
-function makeTagline(): string {
-  const w = getOngoingOrLatest(Object.values(work.data));
-  const e = getOngoingOrLatest(Object.values(education.data));
+interface LocationDisplay {
+  code: OLC;
+  link: PrefixedLink;
+}
 
-  const workTagline = (w: work.Work, b: boolean) => ({
-    main: mainWorkTagline(w, b),
-    mobile: mobileWorkTagline(w, b),
-  });
-  const educationTagline = (e: education.Education, b: boolean) => ({
-    main: mainEducationTagline(e, b),
-    mobile: mobileEducationTagline(e, b),
-  });
+interface Tagline {
+  button: SwitchButtonDisplay;
+  core: CoreDisplay;
+  location: LocationDisplay;
+}
 
-  let primary: Tagline;
-  let secondary: Tagline;
+function makeEducationTagline(e: education.Education): Tagline {
+  return {
+    button: {
+      mobileButton: faUserGraduate,
+      mainButton: isOngoing(e) ? "Currently studying" : "Graduated",
+    },
+    core: {
+      main: {
+        prefix: isOngoing(e) ? "for my" : "with my",
+        content: e.qualification,
+      },
+      mobile: `${e.qualification}${isOngoing(e) ? " (current)" : ""}`,
+    },
+    location: {
+      code: e.location,
+      link: {
+        prefix: isOngoing(e) ? "at the" : "from the",
+        content: e.institution,
+      },
+    },
+  };
+}
 
-  if (compareEventsByImportance(w, e) > 0) {
-    primary = educationTagline(e, true);
-    secondary = workTagline(w, false);
-  } else {
-    primary = workTagline(w, true);
-    secondary = educationTagline(e, false);
-  }
+function makeWorkTagline(w: work.Work): Tagline {
+  return {
+    button: {
+      mobileButton: faBriefcase,
+      mainButton: isOngoing(w) ? "Currently working" : "Formerly worked",
+    },
+    core: {
+      main: {
+        prefix: "as a",
+        content: `${w.role} at ${w.company}`,
+      },
+      mobile: `${isOngoing(w) ? "" : "Former "}${w.role} at ${w.company}`,
+    },
+    location: {
+      code: w.location,
+      link: {
+        prefix: "in",
+        content: getAddress(w.location).city,
+      },
+    },
+  };
+}
 
+function makeTagline(tagline: Tagline, isPrimary: boolean): string {
+  const f = (b: boolean) => (b ? "primarytagline" : "secondarytagline");
+  const id = f(isPrimary);
+  const other = f(!isPrimary);
   return (
-    (
-      <div id="primarytagline">
-        <div class="hidden text-xl md:block">{primary.main}</div>
-        <div class="flex items-center justify-start text-base sm:text-xl md:hidden space-x-2 sm:space-x-3">
-          {primary.mobile}
-        </div>
-      </div>
-    ) +
-    (
-      <div class="hidden" id="secondarytagline">
-        <div class="hidden text-xl md:block">{secondary.main}</div>
-        <div class="flex items-center justify-start text-base sm:text-xl md:hidden space-x-2 sm:space-x-3">
-          {secondary.mobile}
-        </div>
-      </div>
-    )
+    <div
+      id={id}
+      class={`flex items-center justify-start text-base sm:text-xl space-x-2 sm:space-x-3 md:space-x-0 ${
+        isPrimary ? "" : "hidden"
+      }`}
+    >
+      <button
+        class="w-10 h-10 p-2 bg-blue-300 rounded-full shadow-md md:w-auto md:h-auto md:p-1 md:rounded hover:bg-blue-200 active:bg-blue-400 sm:w-12 sm:h-12 sm:p-3"
+        onclick={`switchElements("${other}", "${id}")`}
+        aria-label={`Switch to the ${
+          isPrimary ? "secondary" : "primary"
+        } tagline`}
+      >
+        <span class="md:hidden">{icon(tagline.button.mobileButton).html}</span>
+        <span class="hidden md:inline">{tagline.button.mainButton}</span>
+      </button>
+      <p class="md:hidden">
+        {tagline.core.mobile}
+        <span class="select-none">&nbsp;</span>
+      </p>
+      <span class="hidden md:inline">
+        {`&nbsp;${tagline.core.main.prefix}`}
+        <a
+          class="p-1 bg-green-400 rounded shadow-md hover:bg-green-300 active:bg-green-500 inline-block"
+          title="Go to entry in timeline"
+        >
+          {tagline.core.main.content}
+        </a>
+      </span>
+      <span class="hidden md:inline">
+        {`&nbsp;${tagline.location.link.prefix}`}
+        <a
+          class="p-1 bg-yellow-400 rounded shadow-md hover:bg-yellow-300 active:bg-yellow-500 inline-block"
+          href={makeURL(tagline.location.code)}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open location in Google Maps"
+        >
+          {tagline.location.link.content}
+        </a>
+      </span>
+    </div>
   );
 }
 
+function makeCombinedTagline(): string {
+  const w = getOngoingOrLatest(Object.values(work.data));
+  const e = getOngoingOrLatest(Object.values(education.data));
+
+  let primary = makeWorkTagline(w);
+  let secondary = makeEducationTagline(e);
+
+  if (compareEventsByImportance(w, e) > 0) {
+    [primary, secondary] = [secondary, primary];
+  }
+
+  return makeTagline(primary, true) + makeTagline(secondary, false);
+}
+
 function makeLinks(): string {
-  const f = (link: link.Link, index: number) => (
+  const f = (link: link.Link) => (
     <a
       href={link.url}
       target="_blank"
       rel="noopener noreferrer"
-      class="block w-10 h-10 p-2 sm:w-12 sm:h-12 sm:p-3 md:w-16 md:h-16 md:p-4 text-gray-200 bg-gray-600 rounded-full shadow-lg hover:bg-gray-500 focus:outline-none focus:shadow-outline active:bg-gray-700"
+      class="block w-10 h-10 p-2 text-gray-200 bg-gray-600 rounded-full shadow-lg sm:w-12 sm:h-12 sm:p-3 md:w-16 md:h-16 md:p-4 hover:bg-gray-500 active:bg-gray-700"
       title={link.name}
     >
       {icon(link.icon).html}
@@ -215,9 +181,9 @@ const about = {
           class="text-3xl font-bold tracking-wider text-gray-900 uppercase sm:text-5xl md:text-6xl comfortaa"
           style="text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5)"
         >
-          {config.first} {config.last}
+          {`${config.first} ${config.last}`}
         </h1>
-        {makeTagline()}
+        {makeCombinedTagline()}
         {makeLinks()}
       </div>
     </section>
