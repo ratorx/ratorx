@@ -17,7 +17,7 @@ export const makeNav = (items: Item[]) => {
       >
         <div class="flex items-center justify-between">
           <a
-            class="p-1 text-2xl font-bold leading-none tracking-wider uppercase lg:text-3xl hover:text-gray-60 focus:shadow-outline focus:outline-none rounded-md"
+            class="p-1 text-2xl font-bold leading-none tracking-wider uppercase lg:text-3xl hover:text-gray-60 rounded-md"
             href="#page-top"
           >
             {config.sitename}

@@ -11,17 +11,18 @@ svg {
   height: 100%;
 }
 
+a:focus,
+button:focus {
+  @apply outline-none;
+  @apply shadow-outline;
+}
+
 .navbar-offset {
   top: var(--navbar-offset);
 }
 
 .nav-button:hover {
   @apply bg-blue-700;
-}
-
-.nav-button:focus {
-  @apply outline-none;
-  @apply shadow-outline;
 }
 
 .nav-button:active {

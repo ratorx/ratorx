@@ -34,9 +34,7 @@ const document =
         <link rel="stylesheet" href="./all.css" />
         <script defer="" src="./all.js" />
         {process.env.NODE_ENV === "production" ? "" : liveReload}
-        <title>
-          {config.sitename} - {config.description}
-        </title>
+        <title>{`${config.sitename} - ${config.description}`}</title>
       </head>
       <body class="flex flex-col bg-gray-100 xl:flex-row">
         <div id="page-top"></div>
