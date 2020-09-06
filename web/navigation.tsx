@@ -27,6 +27,7 @@ export const makeNav = (items: Item[]) => {
             class="w-8 h-8 p-1 m-1 leading-none border-2 rounded nav-button sm:hidden"
             onclick="openNav()"
             aria-label="Open navigation menu"
+            type="button"
           >
             {icon(faBars).html}
           </button>
@@ -35,6 +36,7 @@ export const makeNav = (items: Item[]) => {
             class="hidden w-8 h-8 p-1 m-1 leading-none rounded sm:hidden nav-button"
             onclick="closeNav(); setNavbarOffset()"
             aria-label="Close navigation menu"
+            type="button"
           >
             {icon(faTimes).html}
           </button>

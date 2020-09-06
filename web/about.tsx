@@ -105,6 +105,7 @@ function makeTagline(tagline: Tagline, isPrimary: boolean): string {
         aria-label={`Switch to the ${
           isPrimary ? "secondary" : "primary"
         } tagline`}
+        type="button"
       >
         <span class="md:hidden">{icon(tagline.button.mobileButton).html}</span>
         <span class="hidden md:inline">{tagline.button.mainButton}</span>
@@ -117,7 +118,7 @@ function makeTagline(tagline: Tagline, isPrimary: boolean): string {
         {`&nbsp;${tagline.core.main.prefix}`}
         <a
           class="p-1 bg-green-400 rounded shadow-md hover:bg-green-300 active:bg-green-500 inline-block"
-          title="Go to entry in timeline"
+          title="Link to timeline entry"
         >
           {tagline.core.main.content}
         </a>

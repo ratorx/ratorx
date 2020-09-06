@@ -76,9 +76,8 @@ function makeSegmentedBar(sk: skill.Skill): string {
       {fill != 0 ? (
         <div
           class={`${getBarColour(sk.level)} ${
-            fill == 1 ? "rounded-l-full" : "rounded-full"
+            fill == 1 ? "rounded-l-full w-1/2" : "rounded-full w-full"
           } px-2 py-1 select-none`}
-          style={`width: ${fill * 50}%`}
         >
           &nbsp;
         </div>
@@ -114,7 +113,9 @@ function makeItem(sk: skill.Skill): string {
 
 function makeSection(group: SkillGroup, index: number): string {
   return (
-    <section class={`w-full lg:w-1/2 ${(index % 2) == 0 ? "lg:pr-6" : "lg:pl-6"}`}>
+    <section
+      class={`w-full lg:w-1/2 ${index % 2 == 0 ? "lg:pr-6" : "lg:pl-6"}`}
+    >
       <h2 class="tracking-tight text-gray-700 uppercase">{group.type}</h2>
       <ul class="mt-1 text-sm md:text-base space-y-2">
         {group.skills.filter((sk) => sk.level > 3).map(makeItem)}

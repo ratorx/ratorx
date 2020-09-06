@@ -20,9 +20,7 @@ const kvs = [
 
 const sections = [progress];
 
-const liveReload = (
-  <script type="text/javascript" src="http://livejs.com/live.js"></script>
-);
+const liveReload = <script src="http://livejs.com/live.js"></script>;
 
 const document =
   "<!DOCTYPE html>" +
