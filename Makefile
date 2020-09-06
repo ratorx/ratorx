@@ -54,7 +54,7 @@ watch:
 
 ###### RULES #######
 # README
-README.md: $(UTILS_JS) $(CONTENT_JS) | $(TS_MARKER)
+README.md: $(UTILS_JS) $(CONTENT_JS) | $(TS_MARKER) build/cache $(WORKSPACE_LINKS)
 	node $(TS_OUT_DIR)/utils/cmd/readme.js $@
 # Web
 WEB_COMMON := $(PUBLIC_DIR)/web
@@ -78,7 +78,7 @@ $(JS) : static/web/js/main.js | $(WEB_COMMON)
 $(CONTENT_JS) $(WEB_JS) $(UTILS_JS): | $(TS_MARKER);
 
 node_modules/%:
-	@mkdir -p node_modules
+	@mkdir -p $(dir $@)
 	ln -sfTv ../$(TS_OUT_DIR)/$* $@
 
 # Find tsc, or use npx

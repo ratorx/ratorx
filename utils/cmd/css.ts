@@ -35,9 +35,6 @@ const production_modules = () => [
       return broadMatches.concat(innerMatches);
     },
   }),
-  require("cssnano")({
-    preset: "default",
-  }),
 ];
 
 readFile(src, (_, css) => {
