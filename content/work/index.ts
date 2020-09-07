@@ -1,4 +1,3 @@
-import { PickByValue } from "utility-types";
 import { OLC } from "utils/location";
 import * as skill from "../skill";
 import * as Google from "./google";
@@ -11,7 +10,7 @@ export interface Work extends Event {
   location: OLC;
 
   role: string;
-  skills: Set<keyof PickByValue<typeof skill.data, skill.Skill>>;
+  skills: Set<skill.SkillNames>;
   summary: string[];
 
   content?: string;

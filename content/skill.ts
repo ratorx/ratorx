@@ -1,3 +1,5 @@
+import { PickByValue } from "utility-types";
+
 export enum Type {
   LANGUAGE = "language",
   TECHNOLOGY = "technology",
@@ -19,6 +21,8 @@ export interface Skill {
   type: Type;
   level: LevelNum;
 }
+
+export type SkillNames = keyof PickByValue<typeof data, Skill>;
 
 // Skill Level Guide
 // 10 - Maintainer: Actively involved in large decisions in the future of the
