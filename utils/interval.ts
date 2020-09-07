@@ -4,13 +4,19 @@ import {
   differenceInMonths,
   differenceInWeeks,
   differenceInYears,
+  Interval,
   parse as dateparse,
 } from "date-fns";
-import type { Interval } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
 
-// Utilities for formatting intervals
-export function date(d: string): Date {
-  return dateparse(d, "d MMM y", new Date());
+// date takes in a simple date and the timezone and returns the equivalent date
+// in UTC. If stable output from date fields is required, convert to an epoch
+// timestamp first.
+export function date(d: string, timezone?: string): Date {
+  if (timezone === undefined) {
+    timezone = "Europe/London";
+  }
+  return zonedTimeToUtc(dateparse(d, "d MMM y", new Date()), timezone);
 }
 
 function intervalFormat(n: number, unit: string): string {
