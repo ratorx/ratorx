@@ -40,7 +40,11 @@ WORKSPACE_LINKS := $(addprefix node_modules/,$(WORKSPACES));
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch
 all: web;
-web: $(HTML) $(CSS) $(JS);
+web: $(HTML) $(CSS) $(JS)
+ifeq ($(NETLIFY),true)
+	rm -f $(WORKSPACE_LINKS)
+endif
+
 install: $(NPM_MARKER) $(WORKSPACE_LINKS)
 
 clean_all: clean
@@ -79,7 +83,7 @@ $(CONTENT_JS) $(WEB_JS) $(UTILS_JS): | $(TS_MARKER);
 
 node_modules/%:
 	@mkdir -p $(dir $@)
-	ln -sfTv ../$(TS_OUT_DIR)/$* $@
+	@ln -sfTv ../$(TS_OUT_DIR)/$* $@
 
 # Find tsc, or use npx
 $(TS_MARKER) : $(CONTENT_TS_SRC) $(WEB_TS_SRC) $(UTILS_TS_SRC) tsconfig.json
