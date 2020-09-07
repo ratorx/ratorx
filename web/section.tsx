@@ -2,22 +2,33 @@ import * as elements from "typed-html";
 
 export interface Section {
   id: string;
-  title: string;
   content: string;
 }
 
-export function render(section: Section): string {
-  return (
-    <section class="relative max-w-4xl px-8 py-4 mx-auto">
-      <a id={section.id} class="p-2 navbar-anchor xl:no-navbar-anchor">
-        &nbsp;
-      </a>
-      <div class="space-y-4 sm:space-y-10">
-        <h1 class="text-2xl font-medium leading-none tracking-wide text-center sm:text-3xl xl:text-4xl">
-          {section.title}
+export interface Simple {
+  id: string;
+  title: string;
+  body: string;
+  maxWidth?: string;
+}
+
+export function makeSection(simple: Simple): Section {
+  return {
+    id: simple.id,
+    content: (
+      <section
+        class={`relative ${
+          simple.maxWidth !== undefined ? simple.maxWidth : "max-w-5xl"
+        } px-8 pt-4 mx-auto lg:px-12 section`}
+      >
+        <div id={simple.id} class="p-2 navbar-anchor xl:no-navbar-anchor">
+          &nbsp;
+        </div>
+        <h1 class="mb-4 text-3xl font-medium leading-none tracking-wide text-center sm:text-4xl sm:mb-10">
+          {simple.title}
         </h1>
-        {section.content}
-      </div>
-    </section>
-  );
+        {simple.body}
+      </section>
+    ),
+  };
 }

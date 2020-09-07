@@ -1,6 +1,6 @@
 import * as skill from "content/skill";
 import * as elements from "typed-html";
-import { Section } from "./section";
+import { makeSection, Section } from "../section";
 
 type SkillGroup = { type: skill.Type; skills: skill.Skill[] };
 
@@ -53,7 +53,7 @@ function getBarColour(
 }
 
 // Make a full bar with the text inside
-function makeFullBar(sk: skill.Skill): string {
+function renderFullbar(sk: skill.Skill): string {
   const l = skill.getProficiency(sk);
   return (
     <div class="bg-gray-400 rounded-lg shadow">
@@ -70,7 +70,7 @@ function makeFullBar(sk: skill.Skill): string {
 }
 
 // Make a segmented bar with the separate text
-function makeSegmentedBar(sk: skill.Skill): string {
+function renderSegmentedBar(sk: skill.Skill): string {
   const segment = (fill: 0 | 1 | 2) => (
     <div class="w-10 bg-gray-400 rounded-full shadow">
       {fill != 0 ? (
@@ -102,35 +102,37 @@ function makeSegmentedBar(sk: skill.Skill): string {
   );
 }
 
-function makeItem(sk: skill.Skill): string {
+function renderResponsiveBar(sk: skill.Skill): string {
   return (
     <li>
-      <div class="justify-between hidden lg:flex">{makeSegmentedBar(sk)}</div>
-      <div class="lg:hidden">{makeFullBar(sk)}</div>
+      <div class="justify-between hidden lg:flex">{renderSegmentedBar(sk)}</div>
+      <div class="lg:hidden">{renderFullbar(sk)}</div>
     </li>
   );
 }
 
-function makeSection(group: SkillGroup, index: number): string {
+function renderBody(group: SkillGroup, index: number): string {
   return (
     <section
-      class={`w-full lg:w-1/2 ${index % 2 == 0 ? "lg:pr-6" : "lg:pl-6"}`}
+      class={`w-full lg:w-1/2 ${
+        index % 2 == 0 ? "lg:pr-6 xl:pr-12" : "lg:pl-6 xl:pl-12"
+      }`}
     >
       <h2 class="tracking-tight text-gray-700 uppercase">{group.type}</h2>
       <ul class="mt-1 text-sm md:text-base space-y-2">
-        {group.skills.filter((sk) => sk.level > 3).map(makeItem)}
+        {group.skills.filter((sk) => sk.level > 3).map(renderResponsiveBar)}
       </ul>
     </section>
   );
 }
 
-const progress: Section = {
+const progress: Section = makeSection({
   id: "skills",
   title: "Skills",
-  content: (
+  body: (
     <div class="flex flex-wrap space-y-4 lg:space-y-0 lg:divide-x">
-      {groupSkills(skill.data).map(makeSection)}
+      {groupSkills(skill.data).map(renderBody)}
     </div>
   ),
-};
+});
 export default progress;

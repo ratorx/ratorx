@@ -31,6 +31,122 @@ button:focus {
   @apply text-blue-800;
 }
 
+.primary-button {
+  @apply shadow-md;
+  @apply bg-blue-300;
+}
+
+.primary-button:hover {
+  @apply bg-blue-200;
+}
+
+.primary-button:active {
+  @apply bg-blue-400;
+}
+
+.secondary-button {
+  @apply shadow-md;
+  @apply bg-green-400;
+}
+
+.secondary-button:hover {
+  @apply bg-green-300;
+}
+
+.secondary-button:active {
+  @apply bg-green-500;
+}
+
+.tertiary-button {
+  @apply shadow-md;
+  @apply bg-yellow-400;
+}
+
+.tertiary-button:hover {
+  @apply bg-yellow-300;
+}
+
+.tertiary-button:active {
+  @apply bg-yellow-500;
+}
+
+main {
+  --icon-width: theme("spacing.10");
+}
+
+.icon {
+  width: var(--icon-width);
+  height: var(--icon-width);
+  @apply p-2;
+}
+
+@screen sm {
+  main {
+    --icon-width: theme("spacing.12");
+  }
+
+  .icon {
+    @apply p-3;
+  }
+}
+
+@screen md {
+  main {
+    --icon-width: theme("spacing.16");
+  }
+
+  .icon {
+    @apply p-4;
+  }
+}
+
+.timeline {
+  --timeline-width: theme("spacing.2");
+  --entry-spacing: calc(0.75 * var(--icon-width));
+  padding-left: calc(0.5 * var(--icon-width));
+}
+
+.timeline-entry {
+  @apply relative;
+  padding-left: var(--entry-spacing);
+  @apply mr-0;
+  @apply ml-auto;
+}
+
+.timeline-entry .icon {
+  left: calc(-0.5 * var(--icon-width));
+  @apply absolute;
+  @apply right-auto;
+}
+
+.timeline-entry:before {
+  content: "";
+  left: calc(-0.5 * var(--timeline-width));
+  width: var(--timeline-width);
+  @apply absolute;
+  @apply bg-blue-800;
+  @apply inset-y-0;
+}
+
+@responsive {
+  .timeline-entry-invert {
+    padding-right: var(--entry-spacing);
+    @apply pl-0;
+    @apply mr-auto;
+    @apply ml-0;
+  }
+
+  .timeline-entry-invert .icon {
+    right: calc(-0.5 * var(--icon-width));
+    @apply left-auto;
+  }
+
+  .timeline-entry-invert:before {
+    right: calc(-0.5 * var(--timeline-width));
+    @apply left-auto;
+  }
+}
+
 @responsive {
   .navbar-anchor {
     @apply absolute;

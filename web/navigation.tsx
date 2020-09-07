@@ -1,14 +1,14 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import * as elements from "typed-html";
 import { config } from "content";
+import * as elements from "typed-html";
 
 export interface Item {
   id: string;
   title?: string;
 }
 
-export const makeNav = (items: Item[]) => {
+export function renderNav(items: Item[]): string {
   return (
     (
       <header
@@ -72,4 +72,4 @@ export const makeNav = (items: Item[]) => {
       </script>
     )
   );
-};
+}
