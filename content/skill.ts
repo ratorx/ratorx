@@ -71,14 +71,14 @@ export const data = {
   // Languages
   python: language({ name: "Python", level: 7 }),
   go: language({ name: "Go", level: 7 }),
-  rust: language({ name: "Rust", level: 5 }),
-  java: language({ name: "Java", level: 5 }),
+  rust: language({ name: "Rust", level: 6 }),
+  java: language({ name: "Java", level: 4 }),
   ts: language({ name: "Typescript", level: 4 }),
   cpp: language({ name: "C++", level: 5 }),
 
   // Technologies
   linux: technology({ name: "Linux", level: 7 }),
-  git: technology({ name: "Git", level: 7 }),
+  git: technology({ name: "Git", level: 6 }),
   docker: technology({ name: "Docker", level: 6 }),
   k8s: technology({ name: "Kubernetes", level: 5 }),
   prometheus: technology({ name: "Prometheus", level: 4 }),

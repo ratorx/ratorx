@@ -5,7 +5,6 @@ import { Education } from ".";
 const maxResult = (s: string) => ({ name: s, result: "A*" });
 
 const gcseResults = [
-  { name: "History", result: "A" },
   ...[
     "English Language",
     "English Literature",
@@ -18,6 +17,7 @@ const gcseResults = [
     "Mathematics",
     "Additional Mathematics",
   ].map(maxResult),
+  { name: "History", result: "A" },
 ];
 
 const alevelResults = [

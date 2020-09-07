@@ -11,9 +11,14 @@ export const googleintern: Work = {
   ...common,
   interval: { start: date("25 Jun 2019"), end: date("20 Sep 2019") },
 
-  role: "SRE Intern",
+  role: "Site Reliability Engineering Intern",
   skills: new Set(),
-  summary: [], // TODO
+  summary: [
+    "Worked with the SRE team that maintains the ingress load balancing infrastructure.",
+    "Designed a statistical model for the noisiness of ingress traffic.",
+    "Implemented a system to calculate the optimal headroom based for a datacenter given the acceptable overload risk.",
+    "Increased the available peak capacity in multiple edge datacenters by 2-7%.",
+  ],
 };
 
 export const google: Work = {
@@ -23,6 +28,6 @@ export const google: Work = {
   role: "Site Reliability Engineer",
   skills: new Set(),
   summary: [
-    "Worked on the traffic-steering team, which is responsible for routing users to the optimal datacenter based on latency and current load.",
-  ], // TODO
+    "Currently working on the team responsible for routing users to the optimal datacenter based on latency and load.",
+  ],
 };
