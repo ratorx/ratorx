@@ -5,6 +5,7 @@ import { renderNav } from "./navigation";
 import { Section } from "./section";
 import hero from "./sections/hero";
 import progress from "./sections/progress";
+import timeline from "./sections/timeline";
 
 function makeMeta(kvs: { name: string; content: string }[]): string {
   return kvs
@@ -54,5 +55,5 @@ if (args.length != 1) {
   process.exit(1);
 }
 
-const sections = [progress];
+const sections = [progress, timeline];
 writeFileSync(args[0], renderDocument(hero, sections));
