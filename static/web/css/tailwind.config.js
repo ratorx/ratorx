@@ -1,7 +1,12 @@
 module.exports = {
   purge: false,
   theme: {
-    extend: {},
+    extend: {
+      inset: (theme, { negative }) => ({
+        ...theme("spacing"),
+        ...negative(theme("spacing")),
+      }),
+    },
   },
   variants: ["responsive", "hover", "focus", "active", "disabled"],
   plugins: [],
