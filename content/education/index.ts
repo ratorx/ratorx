@@ -16,10 +16,7 @@ export interface Education extends Event {
   qualification: string;
   results: Result[];
   resultAggregate: string;
-
-  content?: string;
 }
 
-export function validate(education: Education) {}
 
 export const data = { ...PGS, ...UG };
