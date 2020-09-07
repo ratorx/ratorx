@@ -31,12 +31,12 @@ export function intervalString(interval: Interval): string {
 
   // > 0 effective years => year granularity
   if (effectiveYearDiff > 0) {
-    return intervalFormat(effectiveYearDiff, "Year");
+    return intervalFormat(effectiveYearDiff, "year");
   }
 
   // > 5 effective months => month granularity
   if (monthDiff > 5) {
-    return intervalFormat(monthDiff, "Month");
+    return intervalFormat(monthDiff, "month");
   }
 
   const weekDiff = differenceInWeeks(interval.end, interval.start);
@@ -45,22 +45,22 @@ export function intervalString(interval: Interval): string {
   // Internship rule
   // 1 month == 4 weeks if > 3 full weeks
   if (weekDiff > 3) {
-    return intervalFormat(Math.round(weekDiff / 4), "Month");
+    return intervalFormat(Math.round(weekDiff / 4), "month");
   }
 
   const effectiveWeekDiff = weekDiff + (dayDiff > 3 ? 1 : 0);
 
   // > 0 effective weeks => week granularity
   if (effectiveWeekDiff > 0) {
-    return intervalFormat(effectiveWeekDiff, "Week");
+    return intervalFormat(effectiveWeekDiff, "week");
   }
 
   // otherwise day granularity
   if (dayDiff > 0) {
-    return intervalFormat(dayDiff, "Day");
+    return intervalFormat(dayDiff, "day");
   }
 
-  return intervalFormat(1, "Day");
+  return intervalFormat(1, "day");
 }
 
 // Define a constant finish date to allow comparisons and a safe API around it.
