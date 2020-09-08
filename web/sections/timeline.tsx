@@ -3,9 +3,11 @@ import { IconDefinition } from "@fortawesome/free-brands-svg-icons";
 import {
   faBriefcase,
   faCalendar,
+  faCode,
   faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
 import * as education from "content/education";
+import * as project from "content/project";
 import * as work from "content/work";
 import { format } from "date-fns";
 import * as elements from "typed-html";
@@ -80,10 +82,32 @@ function educationEntry(e: education.Education): Entry {
   };
 }
 
+function projectEntry(p: project.Project): Entry {
+  const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const subtitle = (t: project.Type) => {
+    switch (t.kind) {
+      case "solo":
+        return "Solo";
+      case "team":
+        return `${capitalize(t.role)} (team of ${t.size})`;
+    }
+  };
+  return {
+    title: p.title,
+    subtitle: subtitle(p.type),
+    id: project.id(p),
+    event: p,
+    contents: renderBulletList(p.summary),
+    isLeft: true,
+    icon: faCode,
+  };
+}
+
 function renderTimeline(): string {
   let entries: Entry[] = [
     ...Object.values(work.data).map(workEntry),
     ...Object.values(education.data).map(educationEntry),
+    ...Object.values(project.data).map(projectEntry),
   ];
   entries.sort((e1, e2) => compareEventsByTime(e1.event, e2.event));
   const f = (entry: Entry) => (
