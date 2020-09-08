@@ -89,7 +89,8 @@ function renderTimeline(): string {
   const f = (entry: Entry) => (
     <li
       class={`timeline-entry ${
-        entry.isLeft ? "lg:timeline-entry-invert " : ""
+        // TODO: replace with responsive variant once tailwindlabs/tailwindcss#2349 is fixed
+        entry.isLeft ? "timeline-entry-invert " : ""
       }block w-full lg:w-1/2`}
     >
       {renderEntry(entry)}

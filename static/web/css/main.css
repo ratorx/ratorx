@@ -128,7 +128,7 @@ main {
   @apply inset-y-0;
 }
 
-@responsive {
+@screen lg {
   .timeline-entry-invert {
     padding-right: var(--entry-spacing);
     @apply pl-0;
