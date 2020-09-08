@@ -35,7 +35,7 @@ NPM_MARKER := node_modules/.marker
 ALL_SRC_CMD := find . -type f ! -wholename './node_modules/*' ! -wholename './.git/*' ! -wholename './build/*'
 
 # Workspace links
-WORKSPACE_LINKS := $(addprefix node_modules/,$(WORKSPACES));
+WORKSPACE_LINKS := $(addprefix node_modules/,$(WORKSPACES))
 
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch
