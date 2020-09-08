@@ -27,6 +27,7 @@ PUBLIC_DIR := build/public
 HTML := $(PUBLIC_DIR)/web/index.html
 CSS := $(PUBLIC_DIR)/web/all.css
 JS := $(PUBLIC_DIR)/web/all.js
+FAVICON := $(PUBLIC_DIR)/web/favicon.ico
 
 # NPM Marker
 NPM_MARKER := node_modules/.marker
@@ -40,7 +41,7 @@ WORKSPACE_LINKS := $(addprefix node_modules/,$(WORKSPACES))
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch
 all: web;
-web: $(HTML) $(CSS) $(JS)
+web: $(HTML) $(CSS) $(JS) $(FAVICON)
 ifeq ($(NETLIFY),true)
 	rm -f $(WORKSPACE_LINKS)
 endif
@@ -77,6 +78,10 @@ $(HTML) : $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) $(ENV) | $(TS_MARKER) $(WEB_COMMON
 ## JS
 $(JS) : static/web/js/main.js | $(WEB_COMMON)
 	cp static/web/js/main.js $@
+
+## Favicon
+$(FAVICON) : static/web/ico/favicon.ico
+	cp static/web/ico/favicon.ico $@
 
 # Compile and link TS files
 $(CONTENT_JS) $(WEB_JS) $(UTILS_JS): | $(TS_MARKER);
