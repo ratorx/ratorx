@@ -86,4 +86,13 @@ export const data = {
     "member",
     6
   ),
+  chumenu: solo({
+    title: "Churchill Menus",
+    interval: { start: date("2 Apr 2017"), end: date("14 Jul 2019") },
+    skills: new Set(["go", "python", "linux", "git"]),
+    summary: [
+      "Developed a Facebook Messenger bot to scrape dining hall menus from the college website and provide them to users.",
+      "Maintained a Linux VPS which ran the webhook for ~200 regular users.",
+    ],
+  }),
 };
