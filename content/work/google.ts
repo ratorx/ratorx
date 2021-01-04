@@ -16,7 +16,7 @@ export const googleintern: Work = {
   summary: [
     "Worked with the SRE team that maintains the ingress load balancing infrastructure.",
     "Designed a statistical model for the noisiness of ingress traffic.",
-    "Implemented a system to calculate the optimal headroom based for a datacenter given the acceptable overload risk.",
+    "Implemented a system to calculate the optimal headroom for a datacenter given the acceptable overload risk.",
     "Increased the available peak capacity in multiple edge datacenters by 2-7%.",
   ],
 };
