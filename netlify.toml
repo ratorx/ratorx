@@ -4,7 +4,7 @@ publish = "build/public/web/"
 
 [build.environment]
 NODE_ENV = "production"
-NODE_VERSION = "14"
+NODE_VERSION = "15"
 
 [build.processing]
 skip_processing = false
