@@ -17,8 +17,8 @@ const Group = (props: GroupProps) => (
     <h2 className="tracking-tight text-gray-700 uppercase">{props.name}</h2>
     <ul className="mt-1 space-y-2 text-sm md:text-base">
       {props.bars.map((bar) => (
-        <li>
-          <Responsive key={bar.name} {...bar} />
+        <li key={bar.name}>
+          <Responsive {...bar} />
         </li>
       ))}
     </ul>
