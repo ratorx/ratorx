@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { config } from "content";
 import * as link from "content/link";
-import { TaglineSection } from "web/hero/tagline";
-import { taglineSectionProps } from "./data";
+import { FullTagline } from "web/hero/tagline";
+import { fullTaglineProps } from "./data";
 
 const Link = (props: link.Link) => (
   <a
@@ -29,7 +29,7 @@ export const Hero = (_: {}) => (
       >
         {`${config.first} ${config.last}`}
       </h1>
-      <TaglineSection {...taglineSectionProps} />
+      <FullTagline {...fullTaglineProps} />
       <ContactDetails>
         {Object.values(link.data).map((l: link.Link) => (
           <Link key={l.name} {...l} />

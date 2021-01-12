@@ -1,68 +1,48 @@
 import {
   faBriefcase,
-  faGraduationCap,
+  faGraduationCap
 } from "@fortawesome/free-solid-svg-icons";
 import * as education from "content/education";
 import * as work from "content/work";
 import {
   compareEventsByImportance,
   getOngoingOrLatest,
-  isOngoing,
+  isOngoing
 } from "utils/event";
 import { getAddress } from "utils/location";
-import { TaglineProps, TaglineSectionProps } from "web/hero/tagline";
+import { FullTaglineProps, TaglineProps } from "web/hero/tagline";
 
-function educationTagline(
-  e: education.Education
-): Omit<TaglineProps, "isPrimary"> {
-  return {
-    button: {
-      mobileButton: faGraduationCap,
-      mainButton: isOngoing(e) ? "Currently studying" : "Graduated",
-    },
-    core: {
-      linkID: education.id(e),
-      main: {
-        prefix: isOngoing(e) ? "for my" : "with my",
-        content: e.qualification,
-      },
-      mobile: `${e.qualification}${isOngoing(e) ? " (current)" : ""}`,
-    },
-    location: {
-      code: e.location,
-      link: {
-        prefix: isOngoing(e) ? "at the" : "from the",
-        content: e.institution,
-      },
-    },
-  };
-}
+const educationTagline = ( e: education.Education): Omit<TaglineProps, "isPrimary"> =>({
+    mobileButtonIcon: faGraduationCap,
+    mobileText: `${e.qualification}${isOngoing(e) ? " (current)" : ""}`,
 
-function workTagline(w: work.Work): Omit<TaglineProps, "isPrimary"> {
-  return {
-    button: {
-      mobileButton: faBriefcase,
-      mainButton: isOngoing(w) ? "Currently working" : "Formerly worked",
-    },
-    core: {
-      linkID: work.id(w),
-      main: {
-        prefix: "as a",
-        content: `${w.role} at ${w.company}`,
-      },
-      mobile: `${isOngoing(w) ? "" : "Former "}${w.role} at ${w.company}`,
-    },
-    location: {
-      code: w.location,
-      link: {
-        prefix: "in",
-        content: getAddress(w.location).city,
-      },
-    },
-  };
-}
+    buttonText: isOngoing(e) ? "Currently studying" : "Graduated",
 
-function getTaglineSectionProps(): TaglineSectionProps {
+    rolePrefix: isOngoing(e) ? "for my" : "with my",
+    role: e.qualification,
+    roleLinkID: education.id(e),
+
+    locationPrefix: isOngoing(e) ? "at the" : "from the",
+    locationName: e.institution,
+    locationCode: e.location,
+})
+
+const workTagline = (w: work.Work): Omit<TaglineProps, "isPrimary"> => ({
+    mobileButtonIcon: faBriefcase,
+    mobileText: `${isOngoing(w) ? "" : "Former "}${w.role} at ${w.company}`,
+
+    buttonText: isOngoing(w) ? "Currently working" : "Formerly worked",
+
+    rolePrefix: "as a",
+    role: `${w.role} at ${w.company}`,
+    roleLinkID: work.id(w),
+
+    locationPrefix: "in",
+    locationName: getAddress(w.location).city,
+    locationCode: w.location,
+})
+
+function getFullTaglineProps(): FullTaglineProps {
   const w = getOngoingOrLatest(Object.values(work.data));
   const e = getOngoingOrLatest(Object.values(education.data));
 
@@ -76,4 +56,4 @@ function getTaglineSectionProps(): TaglineSectionProps {
   return { primary: primary, secondary: secondary };
 }
 
-export const taglineSectionProps = getTaglineSectionProps();
+export const fullTaglineProps = getFullTaglineProps();
