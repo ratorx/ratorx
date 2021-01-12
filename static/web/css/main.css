@@ -14,7 +14,7 @@ svg {
 a:focus,
 button:focus {
   @apply outline-none;
-  @apply shadow-outline;
+  @apply ring;
 }
 
 .navbar-offset {

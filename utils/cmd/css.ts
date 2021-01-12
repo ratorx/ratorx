@@ -20,28 +20,8 @@ const base_modules = [
   require("tailwindcss")("static/web/css/tailwind.config.js"),
 ];
 
-const production_modules = () => [
-  require("@fullhuman/postcss-purgecss")({
-    content: ["./build/public/web/*.html", "./build/public/web/*.js"],
-
-    // This is the function used to extract class names from your templates
-    defaultExtractor: (content: string) => {
-      // Capture as liberally as possible, including things like `h-(screen-1.5)`
-      const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
-
-      // Capture classes within other delimiters like .block(class="w-1/2") in Pug
-      const innerMatches = content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/g) || [];
-
-      return broadMatches.concat(innerMatches);
-    },
-  }),
-];
-
 readFile(src, (_, css) => {
-  postcss([
-    ...base_modules,
-    ...(process.env.NODE_ENV === "production" ? production_modules() : []),
-  ])
+  postcss(base_modules)
     .process(css, { from: src, to: dest })
     .then((result) => {
       writeFile(dest, result.css, () => true);

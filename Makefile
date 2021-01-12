@@ -12,7 +12,7 @@ endif
 TS_OUT_DIR := build/gen
 TS_MARKER := $(TS_OUT_DIR)/.marker
 # Utility functions
-find_ts = $(shell find '$(1)' -type f -regex '.+\.tsx?')
+find_ts = $(shell find '$(1)' -type f -regex '.+\.tsx?' | grep -v '.d.ts')
 ts_to_js = $(addprefix $(TS_OUT_DIR)/,$(patsubst %.tsx,%.js,$(patsubst %.ts,%.js,$(1))))
 # Variables
 CONTENT_TS_SRC := $(call find_ts,content)
@@ -68,10 +68,12 @@ CSS_EXTRA_DEPS :=
 ifeq ($(NODE_ENV),production)
 	CSS_EXTRA_DEPS := $(HTML) $(JS)
 endif
+css: $(CSS);
 $(CSS) : $(UTILS_JS) $(wildcard static/web/css/*) $(CSS_EXTRA_DEPS) $(ENV) | $(TS_MARKER) $(WEB_COMMON) $(WORKSPACE_LINKS)
 	node $(TS_OUT_DIR)/utils/cmd/css.js static/web/css/main.css $@
 
 ## HTML
+html: $(HTML);
 $(HTML) : $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) $(ENV) | $(TS_MARKER) $(WEB_COMMON) build/cache $(WORKSPACE_LINKS)
 	node $(TS_OUT_DIR)/web/index.js $@
 
@@ -84,7 +86,9 @@ $(FAVICON) : static/web/ico/favicon.ico
 	cp static/web/ico/favicon.ico $@
 
 # Compile and link TS files
-$(CONTENT_JS) $(WEB_JS) $(UTILS_JS): | $(TS_MARKER);
+TS_OUT = $(CONTENT_JS) $(WEB_JS) $(UTILS_JS)
+tsc: $(TS_OUT);
+$(TS_OUT): | $(TS_MARKER);
 
 node_modules/%:
 	@mkdir -p $(dir $@)
