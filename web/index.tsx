@@ -9,8 +9,6 @@ import { Progress } from "./progress";
 import { Anchor } from "./shared";
 import { Timeline } from "./timeline";
 
-const liveReload = <script src="http://livejs.com/live.js"></script>;
-
 interface SectionProps {
   id: string;
   title?: string;
@@ -46,7 +44,6 @@ const Page: React.FC<PageProps> = (props) => {
         <meta name="author" content={[config.first, config.last].join(" ")} />
         <link rel="stylesheet" href="./all.css" />
         <script defer src="./all.js" />
-        {process.env.NODE_ENV === "production" ? "" : liveReload}
         <title>{`${config.sitename} - ${config.description}`}</title>
       </head>
       <body className="flex flex-col bg-gray-50 xl:flex-row">
