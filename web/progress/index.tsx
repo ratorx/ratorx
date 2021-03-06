@@ -32,7 +32,7 @@ export type ProgressProps = {
 };
 
 export const Progress = (_: {}) => (
-  <div className="flex flex-wrap space-y-4 lg:space-y-0 lg:divide-x">
+  <div className="flex flex-wrap max-w-2xl m-auto space-y-4 lg:max-w-none lg:space-y-0 lg:divide-x">
     {skillGroups.map((group, index) => (
       <Group key={group.name} {...group} isLeft={index % 2 == 0} />
     ))}
