@@ -28,7 +28,6 @@ function fetchCache(): Map<string, Location> {
 
 function request(url: string): Buffer {
   const cmd = `curl -s '${url}'`
-  console.log(cmd);
   return execSync(cmd)
 }
 
