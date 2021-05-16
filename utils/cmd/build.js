@@ -12,7 +12,7 @@ const configs = {
     entryPoints: ["utils/cmd/readme.ts"],
     platform: "node",
     bundle: true,
-    outdir: "build/gen/"
+    outdir: "build/gen/utils/cmd"
   }
 }
 
