@@ -1,11 +1,26 @@
 const esbuild = require("esbuild");
 
+const preactCompatPlugin = {
+  name: "preact-compat",
+  setup(build) {
+      const path = require("path");
+      const preact = path.join(process.cwd(), "node_modules", "preact", "compat", "dist", "compat.module.js");
+
+      build.onResolve({filter: /^(react-dom|react)$/}, args => {
+          return {path: preact};
+      });
+  }
+}
+
 const configs = {
   "web/index.tsx": {
     entryPoints: ["web/index.tsx"],
     platform: "node",
     bundle: true,
-    inject: ["static/web/js/react-shim.js"],
+    jsxFactory: "preact.h",
+    jsxFragment: "preact.Fragment",
+    inject: ["static/web/js/jsx-shim.js"],
+    plugins: [preactCompatPlugin],
     outdir: "build/gen/web"
   },
   "utils/cmd/readme.ts": {

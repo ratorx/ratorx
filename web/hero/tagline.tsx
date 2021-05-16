@@ -10,10 +10,10 @@ type SwitchButtonProps = {
   mobileIcon: IconDefinition;
 };
 
-const SwitchButton: React.FC<SwitchButtonProps> = (props) => (
+const SwitchButton: preact.FunctionalComponent<SwitchButtonProps> = (props) => (
   <button
     className="rounded-full md:w-auto md:h-auto md:p-1 md:rounded icon primary-button"
-    click={`switchElements("${props.otherID}", "${props.id}")`}
+    onclick={`switchElements("${props.otherID}", "${props.id}")`}
     aria-label={`Switch to the ${
       props.isPrimary ? "secondary" : "primary"
     } tagline`}
@@ -30,7 +30,7 @@ type PrefixedProps = {
   prefix: string;
 };
 
-const Prefixed: React.FC<PrefixedProps> = (props) => (
+const Prefixed: preact.FunctionalComponent<PrefixedProps> = (props) => (
   <>
     {nbsp}
     {props.prefix} {props.children}
@@ -42,7 +42,7 @@ type RoleLinkProps = {
   entryID: string;
 };
 
-const RoleLink: React.FC<RoleLinkProps> = (props) => (
+const RoleLink: preact.FunctionalComponent<RoleLinkProps> = (props) => (
   <Prefixed prefix={props.prefix}>
     <a
       className="inline-block p-1 rounded secondary-button"
@@ -59,7 +59,7 @@ type LocationLinkProps = {
   location: OLC;
 };
 
-const LocationLink: React.FC<LocationLinkProps> = (props) => (
+const LocationLink: preact.FunctionalComponent<LocationLinkProps> = (props) => (
   <Prefixed prefix={props.prefix}>
     <a
       className="inline-block p-1 rounded tertiary-button"
@@ -77,7 +77,7 @@ type ResponsiveContentProps = {
   mobile: string;
 };
 
-const ResponsiveContent: React.FC<ResponsiveContentProps> = (props) => (
+const ResponsiveContent: preact.FunctionalComponent<ResponsiveContentProps> = (props) => (
   <>
     <p className="md:hidden">
       {props.mobile}

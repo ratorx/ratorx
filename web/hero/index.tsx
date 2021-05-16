@@ -16,7 +16,7 @@ const Link = (props: link.Link) => (
   </a>
 );
 
-const ContactDetails: React.FC<{}> = (props) => (
+const ContactDetails: preact.FunctionalComponent<{}> = (props) => (
   <address className="flex space-x-3 md:space-x-4">{props.children}</address>
 );
 

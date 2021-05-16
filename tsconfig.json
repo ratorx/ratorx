@@ -5,12 +5,14 @@
     "module": "commonjs",
     "lib": ["es2020", "dom", "esnext"],
     "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "outDir": "build/gen",
     "strict": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**node_modules/*"]

@@ -27,7 +27,7 @@ const SummaryList = ({ items }: { items: string[] }) => {
   );
 };
 
-const Entry: React.FC<EntryProps> = (props) => (
+const Entry: preact.FunctionalComponent<EntryProps> = (props) => (
   <section className="max-w-md p-4 border border-gray-200 rounded-md shadow-lg md:max-w-lg">
     <Anchor id={props.id} />
     <div className="bg-blue-300 rounded-full icon">

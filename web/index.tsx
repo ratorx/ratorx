@@ -1,7 +1,6 @@
 import { config } from "content";
 import { writeFileSync } from "fs";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
+import render from "preact-render-to-string";
 import { capitalize } from "utils/misc";
 import { Hero } from "./hero";
 import { Navbar, NavLink } from "./navbar";
@@ -9,12 +8,18 @@ import { Progress } from "./progress";
 import { Anchor } from "./shared";
 import { Timeline } from "./timeline";
 
+declare module "preact" {
+  interface Attributes {
+    onclick?: string;
+  }
+}
+
 interface SectionProps {
   id: string;
   title?: string;
 }
 
-const AnchoredSection: React.FC<SectionProps> = (props) => (
+const AnchoredSection: preact.FunctionalComponent<SectionProps> = (props) => (
   <section className="relative max-w-5xl px-8 pt-4 mx-auto lg:px-12 section">
     <Anchor id={props.id} />
     <h1 className="mb-4 text-3xl font-medium leading-none tracking-wide text-center sm:text-4xl sm:mb-10">
@@ -27,14 +32,14 @@ const AnchoredSection: React.FC<SectionProps> = (props) => (
 type PageSection = {
   id: string;
   title?: string;
-  content: React.ReactNode;
+  content: preact.VNode;
 };
 
 type PageProps = {
   sections: PageSection[];
 };
 
-const Page: React.FC<PageProps> = (props) => {
+const Page: preact.FunctionalComponent<PageProps> = (props) => {
   return (
     <html lang="en">
       <head>
@@ -76,7 +81,7 @@ if (args.length != 1) {
 writeFileSync(
   args[0],
   "<!DOCTYPE html>" +
-    ReactDOMServer.renderToStaticMarkup(
+    render(
       <Page
         sections={[
           { id: "skills", content: <Progress /> },
@@ -87,5 +92,5 @@ writeFileSync(
           },
         ]}
       />
-    ).replaceAll("click=", "onclick=")
+    )
 );

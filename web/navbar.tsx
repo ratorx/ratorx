@@ -1,7 +1,8 @@
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { JSX } from "preact/jsx-runtime";
 
-const NavButton: React.FC<React.ComponentProps<"button">> = (props) => {
+const NavButton: preact.FunctionalComponent<JSX.HTMLAttributes<HTMLButtonElement>> = (props) => {
   const { className = "", ...otherProps } = props;
   return (
     <button
@@ -16,7 +17,7 @@ const NavButton: React.FC<React.ComponentProps<"button">> = (props) => {
 const NavOpenButton = (_: {}) => (
   <NavButton
     id="navopenbutton"
-    click="openNav()"
+    onclick="openNav()"
     aria-label="Open navigation menu"
     type="button"
   >
@@ -28,7 +29,7 @@ const NavCloseButton = (_: {}) => (
   <NavButton
     id="navclosebutton"
     className="hidden"
-    click="closeNav(); setNavbarOffset()"
+    onclick="closeNav(); setNavbarOffset()"
     aria-label="Close navigation menu"
     type="button"
   >
@@ -46,7 +47,7 @@ export const NavLink = (props: NavLinkProps) => (
     key={props.id}
     className="block px-1 py-2 leading-none tracking-wide capitalize rounded-md sm:inline-block sm:p-2 nav-button"
     href={`#${props.id}`}
-    click="closeNav()"
+    onclick="closeNav()"
     title={props.title}
   >
     {props.title}
@@ -57,7 +58,7 @@ export type NavbarProps = {
   title: string;
 };
 
-export const Navbar: React.FC<NavbarProps> = (props) => (
+export const Navbar: preact.FunctionalComponent<NavbarProps> = (props) => (
   <>
     <header
       id="navbar"
