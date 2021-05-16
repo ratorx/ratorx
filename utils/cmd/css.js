@@ -1,6 +1,6 @@
 //@ts-ignore
-import { readFile, writeFile } from "fs";
-import postcss from "postcss";
+const fs = require("fs");
+const postcss = require("postcss")
 
 let args = process.argv.slice(2);
 if (args.length != 2) {
@@ -20,13 +20,13 @@ const base_modules = [
   require("tailwindcss")("static/web/css/tailwind.config.js"),
 ];
 
-readFile(src, (_, css) => {
+fs.readFile(src, (_, css) => {
   postcss(base_modules)
     .process(css, { from: src, to: dest })
     .then((result) => {
-      writeFile(dest, result.css, () => true);
+      fs.writeFile(dest, result.css, () => true);
       if (result.map) {
-        writeFile(`${dest}.map`, result.map.toString(), () => true);
+        fs.writeFile(`${dest}.map`, result.map.toString(), () => true);
       }
     });
 });
