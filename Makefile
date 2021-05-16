@@ -23,9 +23,10 @@ NPM_MARKER := node_modules/.marker
 
 # Find all source files
 ALL_SRC_CMD := find . -type f ! -wholename './node_modules/*' ! -wholename './.git/*' ! -wholename './build/*'
+TS_SRC := $(shell find . -path './node_modules' -prune -false -o -type f -regex '.+\.tsx?'  | grep -v '.d.ts')
 
 ###### ENTRYPOINTS #######
-.PHONY: all web install clean_all clean watch
+.PHONY: all web install clean_all clean watch serve
 all: web;
 web: $(HTML) $(CSS) $(JS) $(FAVICON)
 ifeq ($(NETLIFY),true)
@@ -42,6 +43,9 @@ clean:
 
 watch:
 	$(ALL_SRC_CMD) | utils/cmd/watch.sh
+
+serve:
+	npx live-server build/public/web
 
 ###### RULES #######
 # README
@@ -68,7 +72,7 @@ $(JS) : static/web/js/main.js | $(WEB_COMMON)
 $(FAVICON) : static/web/ico/favicon.ico
 	cp static/web/ico/favicon.ico $@
 
-$(CMD_DIR)/utils/cmd/readme.js $(CMD_DIR)/web/index.js &: | $(NPM_MARKER)
+$(CMD_DIR)/utils/cmd/readme.js $(CMD_DIR)/web/index.js &: $(TS_SRC) | $(NPM_MARKER)
 	node utils/cmd/build.js
 
 # Dependency installation
