@@ -1,6 +1,6 @@
+import { execSync } from "child_process";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import OpenLocationCode from "open-location-code-typescript";
-import request from "sync-request";
 import { Brand } from "utility-types";
 
 export type OLC = Brand<string, "OLC">;
@@ -26,14 +26,18 @@ function fetchCache(): Map<string, Location> {
   return new Map();
 }
 
+function request(url: string): Buffer {
+  const cmd = `curl -s '${url}'`
+  console.log(cmd);
+  return execSync(cmd)
+}
+
 function resolveOLC(code: OLC): Location {
   const location = OpenLocationCode.decode(code);
-  let res = request(
-    "GET",
+  let body = request(
     `https://eu1.locationiq.com/v1/reverse.php?key=${process.env.LOCATIONIQ_API_KEY}&lat=${location.latitudeCenter}&lon=${location.longitudeCenter}&format=json&zoom=10`
   );
 
-  const body = res.getBody();
   if (body instanceof Buffer) {
     return JSON.parse(body.toString()).address as {
       city: string;
