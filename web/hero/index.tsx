@@ -21,7 +21,7 @@ const ContactDetails: preact.FunctionalComponent<{}> = (props) => (
 );
 
 export const Hero = (_: {}) => (
-  <section className="flex items-center justify-center py-16 xl:h-screen sm:py-24 md:py-32 lg:py-48">
+  <section className="flex items-center justify-center h-screen py-16 sm:py-24 md:py-32 lg:py-48">
     <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 md:space-y-12">
       <h1
         className="text-3xl font-bold tracking-wider text-gray-900 uppercase sm:text-5xl md:text-6xl lg:text-7xl"

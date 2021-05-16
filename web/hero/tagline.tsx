@@ -1,6 +1,7 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { makeURL, OLC } from "utils/location";
+import { getLink } from "utils/misc";
 import { nbsp } from "utils/specialchars";
 
 type SwitchButtonProps = {
@@ -47,7 +48,7 @@ const RoleLink: preact.FunctionalComponent<RoleLinkProps> = (props) => (
     <a
       className="inline-block p-1 rounded secondary-button"
       title="Link to timeline entry"
-      href={`#${props.entryID}`}
+      href={`${getLink("/resume")}#${props.entryID}`}
     >
       {props.children}
     </a>

@@ -23,7 +23,7 @@ NPM_MARKER := node_modules/.marker
 
 # Find all source files
 ALL_SRC_CMD := find . -type f ! -wholename './node_modules/*' ! -wholename './.git/*' ! -wholename './build/*'
-TS_SRC := $(shell find . -path './node_modules' -prune -false -o -type f -regex '.+\.tsx?'  | grep -v '.d.ts')
+TS_SRC := $(shell find . -path './node_modules' -prune -false -o -type f -regex '.+\.tsx?'  | grep -v '\.d\.ts')
 
 ###### ENTRYPOINTS #######
 .PHONY: all web install clean_all clean watch serve
@@ -61,8 +61,8 @@ $(CSS) : $(UTILS_JS) $(wildcard static/web/css/*) $(HTML) $(JS) $(ENV) | $(WEB_C
 
 ## HTML
 html: $(HTML);
-$(HTML) : $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) $(ENV) $(CMD_DIR)/web/index.js | $(WEB_COMMON) build/cache
-	node $(CMD_DIR)/web/index.js $@
+$(HTML) &: $(WEB_JS) $(CONTENT_JS) $(UTILS_JS) $(ENV) $(CMD_DIR)/web/index.js | $(WEB_COMMON) build/cache
+	node $(CMD_DIR)/web/index.js $(dir $@)
 
 ## JS
 $(JS) : static/web/js/main.js | $(WEB_COMMON)

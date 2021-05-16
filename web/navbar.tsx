@@ -1,6 +1,7 @@
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { JSX } from "preact/jsx-runtime";
+import { capitalize, getLink } from "utils/misc";
 
 const NavButton: preact.FunctionalComponent<JSX.HTMLAttributes<HTMLButtonElement>> = (props) => {
   const { className = "", ...otherProps } = props;
@@ -39,20 +40,21 @@ const NavCloseButton = (_: {}) => (
 
 export type NavLinkProps = {
   id: string;
-  title: string;
+  title?: string;
 };
 
-export const NavLink = (props: NavLinkProps) => (
-  <a
+export const NavLink = (props: NavLinkProps) => {
+  const title = props.title !== undefined ? props.title : capitalize(props.id)
+  return <a
     key={props.id}
     className="block px-1 py-2 leading-none tracking-wide capitalize rounded-md sm:inline-block sm:p-2 nav-button"
-    href={`#${props.id}`}
+    href={getLink(`/${props.id}`)}
     onclick="closeNav()"
-    title={props.title}
+    title={title}
   >
-    {props.title}
+    {title}
   </a>
-);
+};
 
 export type NavbarProps = {
   title: string;
@@ -67,7 +69,7 @@ export const Navbar: preact.FunctionalComponent<NavbarProps> = (props) => (
       <div className="flex items-center justify-between">
         <a
           className="p-1 text-2xl font-bold leading-none tracking-wider uppercase rounded-md lg:text-3xl hover:text-gray-60"
-          href="#page-top"
+          href="/"
         >
           {props.title}
         </a>
